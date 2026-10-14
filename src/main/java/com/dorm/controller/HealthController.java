@@ -1,5 +1,6 @@
 package com.dorm.controller;
 
+import com.dorm.res.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     @GetMapping("/")
-    public String health() {
-        return "UP";
+    public Result<String> health() {
+        return Result.buildSuccess("UP");
     }
 }
