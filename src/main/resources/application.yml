@@ -28,6 +28,13 @@ spring:
     name: dorm
 
 
-  mybatis-plus:
-    config-location: classpath:mybatis/mybaits-config.xml
-    mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+mybatis-plus:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+
+
+auth:
+  whiteList:
+    - /
+    - /manager/login
+    - /resources/**

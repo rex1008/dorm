@@ -4,6 +4,10 @@ import com.dorm.enums.CodeEnum;
 
 public class BizEx extends RuntimeException {
 
+    public Integer getCode() {
+        return code;
+    }
+
     private Integer code;
 
     public BizEx(String message) {
