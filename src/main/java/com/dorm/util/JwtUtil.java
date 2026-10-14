@@ -10,6 +10,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.dorm.ex.BizEx;
 
 import java.util.Calendar;
 
@@ -42,7 +43,7 @@ public class JwtUtil {
         } catch (Exception e) {
             error = "令牌校验失败";
         }
-        throw new RuntimeException(error);
+        throw new BizEx(error);
     }
 
     public static <T> T parse(DecodedJWT decodedJWT, Class<T> clazz) {
