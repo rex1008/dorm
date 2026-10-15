@@ -10,14 +10,25 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.dorm.bean.dto.TokenDTO;
 import com.dorm.enums.CodeEnum;
 import com.dorm.ex.BizEx;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Calendar;
 
+@Slf4j
 public class JwtUtil {
 
     private static final String SECRET = "zhangsan";
+
+    public static void main(String[] args) {
+        TokenDTO tokenDTO = new TokenDTO();
+        tokenDTO.setId(1L);
+        tokenDTO.setUsername("zhangsan");
+        String token = getToken(tokenDTO);
+        System.out.println(token);
+    }
 
     public static <T> String getToken(T t) {
         JWTCreator.Builder builder = JWT.create()
@@ -44,6 +55,7 @@ public class JwtUtil {
         } catch (Exception e) {
             error = "令牌校验失败";
         }
+        log.warn("令牌verify错误. {}", error);
         throw new BizEx(CodeEnum.AUTH_ERR);
     }
 
