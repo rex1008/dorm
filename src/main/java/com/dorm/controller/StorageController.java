@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@RestController()
+@RestController
 @RequestMapping("/storage")
+@Validated
 public class StorageController {
 
     @Resource
