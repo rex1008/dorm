@@ -47,9 +47,11 @@ public class Result<T> {
     }
 
     public static <T> Result<T> buildFailure(CodeEnum codeEnum) {
-        Result<T> result = new Result<>();
-        result.setCode(codeEnum.getCode());
-        result.setMsg(codeEnum.getMsg());
-        return result;
+        return buildFailure(codeEnum.getCode(), codeEnum.getMsg());
+    }
+
+    // 此get方法不能省略，返回值序列化的时候依赖此get方法填充success属性
+    public Boolean getSuccess() {
+        return code == 200;
     }
 }
