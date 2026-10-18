@@ -16,3 +16,12 @@ CREATE TABLE `dept` (
                         PRIMARY KEY (`id`),
                         UNIQUE KEY `uk_dept_name` (`dept_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系别';
+
+CREATE TABLE `clazz` (
+                         `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                         `clazz_no` varchar(50) NOT NULL COMMENT '班级编号',
+                         `clazz_name` varchar(50) NOT NULL COMMENT '班级名称',
+                         `dept_id` bigint(20) NOT NULL COMMENT '系别id',
+                         PRIMARY KEY (`id`),
+                         UNIQUE KEY `uk_clazz_no` (`clazz_no`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='班级';

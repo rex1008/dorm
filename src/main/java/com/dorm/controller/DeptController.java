@@ -34,7 +34,7 @@ public class DeptController {
         return Result.buildSuccess(pageVO.getList(), pageVO.getTotal());
     }
 
-    @PostMapping("/deleteById")
+    @GetMapping("/deleteById")
     public Result<String> deleteById(@NotNull Long id) {
         deptService.deleteById(id);
         return Result.buildSuccess("删除成功");
