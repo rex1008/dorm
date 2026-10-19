@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dorm.mapper.NativeSqlMapper">
+
+    <select id="queryStudentPage" resultType="studentVO">
+        SELECT
+            a.*,
+            b.clazz_name,
+            b.dept_id,
+            c.dept_name,
+            d.dorm_no,
+            e.dorm_building_name
+        FROM
+            student a
+                LEFT JOIN clazz b ON a.clazz_id = b.id
+                LEFT JOIN dept c ON b.dept_id = c.id
+                LEFT JOIN dorm d ON a.dorm_id = d.id
+                LEFT JOIN dorm_building e ON d.dorm_building_id = e.id
+        <where>
+            <if test="pageReq.deptId != null">
+               b.dept_id = #{pageReq.deptId}
+            </if>
+            <if test="pageReq.clazzId != null">
+               and a.clazz_id = #{pageReq.clazzId}
+            </if>
+            <if test="pageReq.studentNo != null and pageReq.studentNo != ''">
+               and a.student_no like concat('%', #{pageReq.studentNo}, '%')
+            </if>
+            <if test="pageReq.studentName != null and pageReq.studentName != ''">
+               and a.student_name like concat('%', #{pageReq.studentName}, '%')
+            </if>
+            <if test="pageReq.sex != null and pageReq.sex != ''">
+               and a.sex = #{pageReq.sex}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+    <select id="queryStudentById" resultType="studentVO">
+        SELECT
+            a.*,
+            b.dept_id
+        FROM
+            student a
+                LEFT JOIN clazz b ON a.clazz_id = b.id
+                LEFT JOIN dept c ON b.dept_id = c.id
+        where a.id = #{id}
+    </select>
+</mapper>

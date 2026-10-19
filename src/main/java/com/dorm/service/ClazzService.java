@@ -14,6 +14,7 @@ import com.dorm.bean.req.ClazzPageReq;
 import com.dorm.bean.req.ClazzUpdateReq;
 import com.dorm.bean.vo.ClazzVO;
 import com.dorm.bean.vo.PageVO;
+import com.dorm.ex.BizEx;
 import com.dorm.mapper.ClazzMapper;
 import com.dorm.util.PageUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,8 @@ public class ClazzService extends ServiceImpl<ClazzMapper, ClazzDO> {
 
     @Resource
     private DeptService deptService;
+    @Resource
+    private StudentService studentService;
 
     @Transactional(rollbackFor = Exception.class)
     public void add(ClazzAddReq addReq) {
@@ -70,6 +73,9 @@ public class ClazzService extends ServiceImpl<ClazzMapper, ClazzDO> {
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
+        if (studentService.clazzUsed(id)) {
+            throw new BizEx("班级下已有学生，无法删除");
+        }
         removeById(id);
     }
 

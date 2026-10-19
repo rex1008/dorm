@@ -1,6 +1,7 @@
 package com.dorm.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -11,16 +12,21 @@ import com.dorm.bean.req.DeptPageReq;
 import com.dorm.bean.req.DeptUpdateReq;
 import com.dorm.bean.vo.DeptVO;
 import com.dorm.bean.vo.PageVO;
+import com.dorm.ex.BizEx;
 import com.dorm.mapper.DeptMapper;
 import com.dorm.util.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class DeptService extends ServiceImpl<DeptMapper, DeptDO> {
+
+    @Resource
+    private ClazzService clazzService;
 
     @Transactional(rollbackFor = Exception.class)
     public void add(DeptAddReq addReq) {
@@ -39,6 +45,9 @@ public class DeptService extends ServiceImpl<DeptMapper, DeptDO> {
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
+        if (CollectionUtil.isNotEmpty(clazzService.listByDeptId(id))) {
+            throw new BizEx("系别已被班级使用，无法删除");
+        }
         removeById(id);
     }
 
