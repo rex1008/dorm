@@ -17,7 +17,7 @@ public enum SexEnum {
         return desc;
     }
 
-    public String getDescByName(String name) {
+    public static String getDescByName(String name) {
         for (SexEnum e : values()) {
             if (e.name().equals(name)) {
                 return e.getDesc();

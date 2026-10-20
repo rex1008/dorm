@@ -48,4 +48,51 @@
                 LEFT JOIN dept c ON b.dept_id = c.id
         where a.id = #{id}
     </select>
+
+    <select id="queryDormCount" resultType="java.lang.Long">
+        select count(*) from dorm a
+        <where>
+            <if test="dormBuildingId != null">
+                and a.dorm_building_id = #{dormBuildingId}
+            </if>
+            <if test="dormNo != null and dormNo != ''">
+                and a.dorm_no like concat('%', #{dormNo}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryDormList" resultMap="dormMap">
+        SELECT
+            a.*,
+            b.dorm_building_name,
+            c.id AS studentId,
+            c.student_name form (
+            SELECT
+                dorm.*
+            FROM
+                dorm dorm
+            <where>
+                <if test="dormBuildingId != null">
+                    and a.dorm_building_id = #{dormBuildingId}
+                </if>
+                <if test="dormNo != null and dormNo != ''">
+                    and a.dorm_no like concat('%', #{dormNo}, '%')
+                </if>
+            </where>
+            ORDER BY
+                dorm.id DESC
+                LIMIT #{start}, #{pageSize}) a
+        LEFT JOIN dorm_building b ON a.dorm_building_id = b.id
+            LEFT JOIN student c ON a.id = c.dorm_id
+        ORDER BY
+            a.id DESC
+    </select>
+
+    <resultMap id="dormMap" type="dormVO" autoMapping="true">
+        <id column="id" property="id"></id>
+        <collection property="studentList" ofType="studentVO" notNullColumn="studentId" resultMap="studentMap"></collection>
+    </resultMap>
+    <resultMap id="studentMap" type="studentVO" autoMapping="true">
+        <id column="studentId" property="id"></id>
+    </resultMap>
 </mapper>
