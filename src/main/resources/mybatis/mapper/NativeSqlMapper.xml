@@ -20,7 +20,7 @@
                 LEFT JOIN dorm_building e ON d.dorm_building_id = e.id
         <where>
             <if test="pageReq.deptId != null">
-               b.dept_id = #{pageReq.deptId}
+               and b.dept_id = #{pageReq.deptId}
             </if>
             <if test="pageReq.clazzId != null">
                and a.clazz_id = #{pageReq.clazzId}
@@ -66,26 +66,22 @@
             a.*,
             b.dorm_building_name,
             c.id AS studentId,
-            c.student_name form (
-            SELECT
-                dorm.*
-            FROM
-                dorm dorm
+            c.student_name
+        FROM
+        ( SELECT dorm.* FROM dorm dorm
             <where>
                 <if test="dormBuildingId != null">
-                    and a.dorm_building_id = #{dormBuildingId}
+                    and dorm.dorm_building_id = #{dormBuildingId}
                 </if>
                 <if test="dormNo != null and dormNo != ''">
-                    and a.dorm_no like concat('%', #{dormNo}, '%')
+                    and dorm.dorm_no like concat('%', #{dormNo}, '%')
                 </if>
             </where>
-            ORDER BY
-                dorm.id DESC
-                LIMIT #{start}, #{pageSize}) a
+        ORDER BY dorm.id DESC LIMIT #{start}, #{pageSize} ) a
         LEFT JOIN dorm_building b ON a.dorm_building_id = b.id
-            LEFT JOIN student c ON a.id = c.dorm_id
+        LEFT JOIN student c ON a.id = c.dorm_id
         ORDER BY
-            a.id DESC
+        a.id DESC
     </select>
 
     <resultMap id="dormMap" type="dormVO" autoMapping="true">

@@ -26,6 +26,18 @@ CREATE TABLE `clazz` (
                          UNIQUE KEY `uk_clazz_no` (`clazz_no`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='班级';
 
+CREATE TABLE `student` (
+                           `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                           `student_no` varchar(50) NOT NULL COMMENT '学号',
+                           `student_name` varchar(50) NOT NULL COMMENT '姓名',
+                           `sex` char(1) NOT NULL COMMENT 'M:男 F:女',
+                           `photo_path` varchar(300) DEFAULT NULL COMMENT '照片存放路径',
+                           `clazz_id` bigint(20) NOT NULL COMMENT '班级id',
+                           `dorm_id` bigint(20) DEFAULT NULL COMMENT '宿舍id',
+                           PRIMARY KEY (`id`),
+                           UNIQUE KEY `uk_student_no` (`student_no`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学生表';
+
 
 CREATE TABLE `dorm_building` (
                                  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -38,7 +50,7 @@ CREATE TABLE `dorm_building` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='宿舍楼';
 
 CREATE TABLE `dorm` (
-                        `id` bigint(20) NOT NULL COMMENT '主键',
+                        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
                         `dorm_no` varchar(50) NOT NULL COMMENT '宿舍编号',
                         `capacity` smallint(6) NOT NULL COMMENT '容量',
                         `dorm_building_id` bigint(20) NOT NULL COMMENT '宿舍楼id',

@@ -3,6 +3,8 @@ package com.dorm.res;
 import com.dorm.enums.CodeEnum;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class Result<T> {
 
@@ -52,6 +54,6 @@ public class Result<T> {
 
     // 此get方法不能省略，返回值序列化的时候依赖此get方法填充success属性
     public Boolean getSuccess() {
-        return code == 200;
+        return Objects.equals(code, 200);
     }
 }
